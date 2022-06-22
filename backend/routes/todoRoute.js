@@ -16,5 +16,13 @@ router.route("/add").post((req, res) => {
         }
     })
 })
+/*view all task*/
+router.route("/").get((req, res) => {
+    todoItems.find().then((todoItem) => {
+        res.json(todoItem);
+    }).catch((error) => {
+        console.log(error);
+    })
+})
 
 module.exports = router;
