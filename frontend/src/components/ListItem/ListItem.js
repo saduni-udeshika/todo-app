@@ -2,18 +2,19 @@ import "./listItem.css";
 import React from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const ListItems = () => {
+export default function ListItem({ text, edit, remove }) {
     return (
-        <div className='item'>
-            <div className='text'>
-                Buy fruits
-            </div>
-            <div className='icons'>
-                <i> <MdEdit /> </i>
-                <i> <MdDelete /> </i>
+        <div>
+            <div className='item'>
+                <div className='text'>
+                    {text}
+                </div>
+                <div className='icons'>
+                    <i onClick={edit}> <MdEdit /> </i>
+                    <i onClick={remove}> <MdDelete /> </i>
+                </div>
             </div>
         </div>
     )
 }
 
-export default ListItems;
