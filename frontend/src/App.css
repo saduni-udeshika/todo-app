@@ -1,0 +1,31 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.container{
+  max-width: 600px;
+  margin: auto;
+  padding: 0 1rem;
+}
+h1{
+  text-align: center;
+}
+.container-top{
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+input{
+  border: none;
+  outline: none;
+  width: 400px;
+  padding: 0 0.5rem;
+  border-bottom: 1px solid black;
+}
+.add{
+  background-color: blue;
+  color: white;
+  padding: 0.5rem 1.5rem;
+}
+
