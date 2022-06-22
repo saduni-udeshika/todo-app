@@ -24,5 +24,23 @@ router.route("/").get((req, res) => {
         console.log(error);
     })
 })
+/*Update task*/
+router.route("/update/:id").put(async (req, res) => {
+    let id = req.params.id;
+    const { todoItem } = req.body;
+
+    const updateTodoItem = {
+        todoItem
+    }
+
+
+    const update = await todoItems.findByIdAndUpdate(id, updateTodoItem).then(() => {
+        res.status(200).send({ status: "item updated" })
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send({ status: "Error with updating data", error: err.message });
+    })
+})
+/*delete task*/
 
 module.exports = router;
