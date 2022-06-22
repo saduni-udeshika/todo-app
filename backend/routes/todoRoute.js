@@ -42,5 +42,15 @@ router.route("/update/:id").put(async (req, res) => {
     })
 })
 /*delete task*/
+router.route("/delete/:id").delete(async (req, res) => {
+    let id = req.params.id;
+
+    await todoItems.findByIdAndDelete(id).then(() => {
+        res.status(200).send({ status: "Item deleted" });
+    }).catch((err) => {
+        console.log(err.message);
+        res.status(500).send({ status: " Error with delete items", error: err.message });
+    })
+})
 
 module.exports = router;
