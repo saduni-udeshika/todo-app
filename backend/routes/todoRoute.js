@@ -1,51 +1,53 @@
 const router = require("express").Router();
-const todoItems = require("../models/todoModel");
+let todoModel = require("../models/todoModel");
 
 /*add tasks*/
 router.route("/add").post((req, res) => {
-    const { todoItem } = req.body;
+    const todoItem = req.body.todoItem;
 
-    const newTodoItem = new todoItems({
-        todoItem
+    const newTodoModel = new todoModel({
+        todoItem: todoItem
     })
-    newTodoItem.save(function (err) {
-        if (!err) {
-            res.send("To do item added.");
-        } else {
-            res.send(err);
-        }
+
+    newTodoModel.save().then(() => {
+        console.log("Item added");
+        res.status(200).send({ status: "Item added" });
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send({ status: " Error with add items", error: err.message });
     })
+
 })
 /*view all task*/
 router.route("/").get((req, res) => {
-    todoItems.find().then((todoItem) => {
-        res.json(todoItem);
+    todoModel.find().then((todoModel) => {
+        res.json(todoModel);
     }).catch((error) => {
         console.log(error);
     })
 })
 /*Update task*/
-router.route("/update/:id").put(async (req, res) => {
-    let id = req.params.id;
-    const { todoItem } = req.body;
+router.route("/update").put(async (req, res) => {
+    const { _id, todoItem } = req.body;
 
     const updateTodoItem = {
         todoItem
     }
 
 
-    const update = await todoItems.findByIdAndUpdate(id, updateTodoItem).then(() => {
+    const update = await todoModel.findByIdAndUpdate(_id, updateTodoItem).then(() => {
         res.status(200).send({ status: "item updated" })
     }).catch((err) => {
         console.log(err);
         res.status(500).send({ status: "Error with updating data", error: err.message });
     })
 })
+
 /*delete task*/
 router.route("/delete/:id").delete(async (req, res) => {
     let id = req.params.id;
 
-    await todoItems.findByIdAndDelete(id).then(() => {
+    await todoModel.findByIdAndDelete(id).then(() => {
         res.status(200).send({ status: "Item deleted" });
     }).catch((err) => {
         console.log(err.message);

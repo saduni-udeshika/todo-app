@@ -1,24 +1,38 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import ListItems from '../components/ListItem/ListItem';
-import { todoItems, addItem, deleteItem } from '../utills/apiRoutes';
+import { todoItems, addItem, deleteItem, updateItem } from '../utills/apiRoutes';
 
 const TodoPage = () => {
-    const [input, setInput] = useState("");
+    const [todoItem, setInput] = useState("");
     const [items, setitems] = useState([]);
+    const [isUpdate, setUpdate] = useState("");
 
     function sendTodoText(e) {
-        e.preventDefault();
-        alert("Insert");
-        const newItem = {
-            input
+        if (isUpdate === "") {
+            e.preventDefault();
+            alert("Insert");
+            const newItem = {
+                todoItem
+            }
+            axios.post(addItem, newItem).then(() => {
+                setInput("");
+            }).catch((err) => {
+                alert(err);
+            })
+        } else {
+            axios.post(updateItem, { _id: isUpdate, todoItem }).then(() => {
+                setInput("");
+                setUpdate("");
+            }).catch((err) => {
+                console.log(err);
+            })
         }
-        //console.log(newItem);
-        axios.post(addItem, newItem).then(() => {
-            setInput("");
-        }).catch((err) => {
-            alert(err);
-        })
+    }
+    //update
+    function updateTodoItem(_id, todoItem) {
+        setUpdate(_id);
+        setInput(todoItem);
     }
 
     useEffect(() => {
@@ -31,7 +45,7 @@ const TodoPage = () => {
                 })
         }
         getItems();
-    }, [items])
+    }, [])
 
     //delete
     function deleteTodoItem(_id) {
@@ -48,21 +62,22 @@ const TodoPage = () => {
     return (
         <div className='container'>
             <h1>Todo App</h1>
-            <form onSubmit={sendTodoText}>
-                <div className='container-top'>
-                    <input type="text" placeholder='Type something....' value={input} onChange={(e) => {
-                        setInput(e.target.value);
-                    }} />
-                    <button type="submit" className='add'>Add</button>
-                </div>
-            </form>
-            {items.map((item) =>
-                <div className='container-icons' key={item._id}>
-                    <ListItems todoItem={item.todoItem}
-                        remove={() => deleteTodoItem(item._id)} />
-                </div>
-            )}
-        </div>
+            <div className='container-top'>
+                <input type="text" placeholder='Type something....' value={todoItem} onChange={(e) => {
+                    setInput(e.target.value);
+                }} />
+                <button type="submit" className='add' onClick={sendTodoText}>{isUpdate ? "update" : "Add"}</button>
+            </div>
+            {
+                items.map((item) =>
+                    <div className='container-icons' key={item._id}>
+                        <ListItems todoItem={item.todoItem}
+                            remove={() => deleteTodoItem(item._id)}
+                            update={() => updateTodoItem(item._id, item.todoItem)} />
+                    </div>
+                )
+            }
+        </div >
     )
 }
 

@@ -8,6 +8,6 @@ const todoSchema = new mongoose.Schema({
 });
 
 
-const todoItems = mongoose.model("todoItems", todoSchema);
+const todoModel = mongoose.model("todoItem", todoSchema);
 
-module.exports = todoItems;
+module.exports = todoModel;
