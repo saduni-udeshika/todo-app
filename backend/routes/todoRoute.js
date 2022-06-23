@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 router.post("/", addTodo);
 router.get("/", getTodo);
-router.delete("/delete/:id", deleteTodo);
+router.delete("/:id", deleteTodo);
 router.put("/", updateTodo);
 
 module.exports = router;
