@@ -1,29 +1,41 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import ListItems from '../components/ListItem/ListItem';
-import { todoItems, addItem, deleteItem, updateItem } from '../utills/apiRoutes';
 
 const TodoPage = () => {
     const [todoItem, setInput] = useState("");
     const [items, setitems] = useState([]);
     const [isUpdate, setUpdate] = useState("");
 
+    //view todo items
+    function getItems() {
+        axios.get("http://localhost:5000/todo/").then((res) =>
+            setitems(res.data))
+            .catch((err) => {
+                alert(err.message);
+            })
+    }
+    useEffect(() => {
+        getItems();
+    }, [])
+
     function sendTodoText(e) {
         if (isUpdate === "") {
             e.preventDefault();
-            alert("Insert");
             const newItem = {
                 todoItem
             }
-            axios.post(addItem, newItem).then(() => {
+            axios.post("http://localhost:5000/todo/", newItem).then(() => {
                 setInput("");
+                getItems();
             }).catch((err) => {
                 alert(err);
             })
         } else {
-            axios.post(updateItem, { _id: isUpdate, todoItem }).then(() => {
+            axios.put("http://localhost:5000/todo/", { _id: isUpdate, todoItem }).then(() => {
                 setInput("");
                 setUpdate("");
+                getItems();
             }).catch((err) => {
                 console.log(err);
             })
@@ -35,24 +47,12 @@ const TodoPage = () => {
         setInput(todoItem);
     }
 
-    useEffect(() => {
-        function getItems() {
-            axios.get(todoItems).then((res) =>
-                //console.log(res.data);
-                setitems(res.data))
-                .catch((err) => {
-                    alert(err.message);
-                })
-        }
-        getItems();
-    }, [])
-
     //delete
     function deleteTodoItem(_id) {
         axios
-            .delete(deleteItem + `${_id}`)
+            .delete("http://localhost:5000/todo/delete/" + `${_id}`)
             .then((res) => {
-                //console.log(res.data);
+                getItems();
             })
             .catch((err) => {
                 alert(err);

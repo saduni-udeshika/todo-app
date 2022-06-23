@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
 }
 .container{
   max-width: 600px;
@@ -9,6 +10,8 @@
 }
 h1{
   text-align: center;
+  padding-top: 1rem;
+  color: rgb(1, 1, 56);
 }
 .container-top{
   margin-top: 1rem;
