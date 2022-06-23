@@ -1,18 +1,18 @@
-.container-icons {
+.item{
     position: relative;
     margin-top: 1rem;
     background-color: rgb(1, 1, 56);
     color: white;
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 1.5rem;
     border-radius: 4px;
 }
+
 .icons {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
     display: flex;
-    gap: 0.5rem;
 }
 
 i {

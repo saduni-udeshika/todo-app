@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import ListItems from "../components/ListItem/ListItem";
 import {
   createTodo,
@@ -63,7 +62,7 @@ const TodoPage = () => {
         </button>
       </div>
       {items.map((item) => (
-        <div className="container-icons" key={item._id}>
+        <div key={item._id}>
           <ListItems
             todoItem={item.todoItem}
             remove={() => deleteTodoItem(item._id)}
