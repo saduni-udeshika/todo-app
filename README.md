@@ -11,3 +11,9 @@
     7. Execute 'npm install' command
     8. Execute 'npm start' command to start frontend server
     9. Project will open on browser tab (port:3000)
+### **Deploy to Docker**
+
+    1. docker build -t todo-web-app .
+    2. docker images
+    3. docker run -d -p 5000:5000 todo-web-app
+    4. docker ps
